@@ -20,7 +20,18 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.twitter.sdk.android.core.Callback;
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.Twitter;
+import com.twitter.sdk.android.core.TwitterApiClient;
+import com.twitter.sdk.android.core.TwitterCore;
+import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
+import com.twitter.sdk.android.core.models.Search;
+import com.twitter.sdk.android.core.models.Tweet;
+import com.twitter.sdk.android.core.services.SearchService;
+import com.twitter.sdk.android.core.services.StatusesService;
+import com.twitter.sdk.android.tweetui.SearchTimeline;
 
 import org.puredata.android.io.AudioParameters;
 import org.puredata.android.io.PdAudio;
@@ -32,7 +43,10 @@ import org.puredata.core.utils.IoUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
+
+import retrofit2.Call;
 
 /**
  * Created by sangwoo on 4/30/18.
@@ -89,10 +103,27 @@ public class Noisemachine extends Activity {
         //Receive Twitter username
         String username = getIntent().getStringExtra("username");
 
+        TwitterApiClient twitterApiClient = TwitterCore.getInstance().getApiClient();
+
+        SearchService searchService = twitterApiClient.getSearchService();
+
+        final Call<Search> tweets = searchService.tweets("@ladygaga", null, null, null, null, null, null, null,
+                null, true);
+        tweets.enqueue(new Callback<Search>() {
+            @Override
+            public void success(Result<Search> result) {
+                
+            }
+
+            @Override
+            public void failure(TwitterException exception) {
+
+            }
+        });
 
 
         //UI Settings
-        ed1=(EditText)findViewById(R.id.editText);
+        ed1 = (EditText) findViewById(R.id.editText);
         b1=(Button)findViewById(R.id.button);
         p1=(Button)findViewById(R.id.play);
         play1 =(Button)findViewById(R.id.playone);

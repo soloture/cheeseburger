@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
                 String secret = authToken.secret;
                 Log.d("Twitter", "Successful");
 
+
                 login(session);
             }
 
